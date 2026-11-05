@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tim Augustijn</title>
+<style>
+:root{color-scheme:dark;--d:#0F1923;--c:#00BCD4;--g:#F5A623;--w:#fff;--t:rgba(255,255,255,.78);--l:rgba(255,255,255,.13);--p:rgba(12,21,29,.76)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:#0a121a}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:#0a121a;color:var(--w);font:17px/1.5 Calibri,Carlito,'Segoe UI',sans-serif;overflow-x:hidden}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+h1,h2{font-family:'Trebuchet MS',Calibri,sans-serif;margin:0;line-height:1.12}
+main{position:relative;z-index:2}
+section{min-height:112vh;display:flex;align-items:center;padding:12vh 6vw}
+section.rechts{justify-content:flex-end}
+.kaart{width:min(470px,100%);background:var(--p);backdrop-filter:blur(13px);border:1px solid var(--l);border-radius:14px;padding:24px 27px}
+.kaart p{color:var(--t);margin:11px 0 0}
+.kaart h2{font-size:29px;margin-top:5px}
+.kicker{color:var(--g);font:700 14px 'Trebuchet MS',sans-serif;letter-spacing:.7px}
+#s0{min-height:100vh;align-items:flex-end;padding-bottom:9vh}
+#s0:before{content:'';position:absolute;left:0;top:0;width:min(62vw,860px);height:100vh;background:linear-gradient(90deg,rgba(6,12,18,.82),rgba(6,12,18,.5) 60%,transparent);pointer-events:none}
+#held0{position:relative}
+#held0{max-width:760px}
+#held0 h1{font-size:clamp(46px,8vw,96px);letter-spacing:-1px}
+#rol{color:var(--c);font:700 clamp(14px,1.5vw,18px) 'Trebuchet MS',sans-serif;margin:8px 0 0}
+#held{font-size:clamp(20px,2.4vw,29px);line-height:1.28;margin:16px 0 22px;max-width:640px}
+.knoppen{display:flex;gap:10px;flex-wrap:wrap}
+a.knop{display:inline-block;text-decoration:none;color:var(--w);background:rgba(255,255,255,.09);border:1px solid var(--l);border-radius:9px;padding:11px 17px;font-weight:700;backdrop-filter:blur(10px)}
+a.knop:hover{border-color:var(--c)}
+a.knop.hoofd{background:var(--c);border-color:var(--c);color:var(--d)}
+#hint{color:var(--t);font-size:15px;margin:17px 0 0}
+#s5{align-items:flex-start;flex-direction:column;justify-content:center;gap:15px}
+#off{width:min(620px,100%)}
+#opls{display:grid;gap:7px;width:min(620px,100%)}
+.opl{display:flex;gap:13px;text-align:left;font:inherit;color:var(--w);background:var(--p);backdrop-filter:blur(13px);border:1px solid var(--l);border-radius:11px;padding:11px 15px;cursor:pointer}
+.opl>b{color:var(--g);font:700 22px 'Trebuchet MS',sans-serif;line-height:1.1}
+.opl strong{display:block;font-family:'Trebuchet MS',sans-serif;font-size:16.5px}
+.opl em{display:block;font-style:normal;color:var(--t);font-size:15.5px;max-height:0;overflow:hidden;transition:max-height .3s}
+.opl.aan{border-color:var(--g)}.opl.aan em{max-height:130px;margin-top:3px}
+#s6{justify-content:center;text-align:center}
+#s6 .kaart{width:min(640px,100%)}
+#beeld{display:block;width:100%;border-radius:9px;margin-bottom:15px}
+#s6 .knoppen{justify-content:center;margin-top:17px}
+#con{margin-top:17px;padding-top:13px;border-top:1px solid var(--l);font-size:15.5px;color:var(--t)}
+#con a{color:var(--c);text-decoration:none}
+#con h3{font:700 14px 'Trebuchet MS',sans-serif;margin:0 0 4px;color:var(--w)}
+#hud{position:fixed;right:18px;top:16px;z-index:4;display:flex;gap:13px;align-items:center}
+#jaarBlok{text-align:right;line-height:1;text-shadow:0 1px 8px #000}
+#jaarLabel{display:block;font-size:11px;color:var(--t)}
+#jaarGetal{font:700 28px 'Trebuchet MS',sans-serif;color:var(--g)}
+#taal{font:inherit;color:var(--w);background:var(--p);border:1px solid var(--l);border-radius:8px;padding:6px 11px;cursor:pointer}
+#labels{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.lab{opacity:0;position:absolute;left:0;top:0;font:700 13px 'Trebuchet MS',sans-serif;color:#fff;text-shadow:0 1px 6px #000;transition:opacity .4s;white-space:nowrap}
+@media (max-width:760px){section{padding:12vh 16px}.kaart{padding:17px 18px}#s0{padding-bottom:6vh}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<div id="hud"><div id="jaarBlok"><span id="jaarLabel"></span><span id="jaarGetal">2026</span></div><button id="taal">EN</button></div>
+<main>
+  <section id="s0" data-stop>
+    <div id="held0">
+      <h1>Tim Augustijn</h1>
+      <div id="rol"></div>
+      <p id="held"></p>
+      <div class="knoppen"><a id="cta1" class="knop hoofd" href="stad/index.html"></a><a id="cta2" class="knop" href="#s5"></a></div>
+      <p id="hint"></p>
+    </div>
+  </section>
+  <section data-stop><div class="kaart" id="ch0"></div></section>
+  <section class="rechts" data-stop><div class="kaart" id="ch1"></div></section>
+  <section data-stop><div class="kaart" id="ch2"></div></section>
+  <section class="rechts" data-stop><div class="kaart" id="ch3"></div></section>
+  <section id="s5" data-stop>
+    <div class="kaart" id="off"><span class="kicker" id="offK"></span><h2 id="offH"></h2><p id="offP"></p></div>
+    <div id="opls"></div>
+  </section>
+  <section id="s6" data-stop>
+    <div class="kaart">
+      <img id="beeld" src="stad_beeld.jpg" alt="Den Bosch twin: de binnenstad met de Sint-Jan en de Parade in 3D"><h2 id="endH"></h2><p id="endP"></p>
+      <div class="knoppen"><a id="cta3" class="knop hoofd" href="stad/index.html"></a></div>
+      <div id="con"><h3 id="conH"></h3><a href="mailto:augustijn.tim@twinsightsolutions.com">augustijn.tim@twinsightsolutions.com</a> · <a href="https://www.linkedin.com/in/tim-augustijn-69723159/">LinkedIn</a></div>
+    </div>
+  </section>
+</main>
+<script type="module" src="carriere.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Den Bosch twin</title>
+<style>
+:root{color-scheme:dark;--d:#0F1923;--c:#00BCD4;--g:#F5A623;--w:#fff;--p:rgba(15,25,35,.82);--l:rgba(255,255,255,.12);--t:rgba(255,255,255,.72)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--d);color:var(--w);font:15px/1.45 Calibri,Carlito,'Segoe UI',sans-serif;overflow:hidden}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+h1,h2,h3{font-family:'Trebuchet MS',Calibri,sans-serif;margin:0}
+.paneel{position:fixed;background:var(--p);backdrop-filter:blur(14px);border:1px solid var(--l);border-radius:12px}
+#links{left:16px;top:16px;width:340px;max-height:calc(100vh - 32px);overflow:auto;padding:16px 18px}
+#links h1{font-size:23px;letter-spacing:.2px}
+#sub{color:var(--c);font-size:14px;margin:2px 0 10px}
+#tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 12px}
+button{font:inherit;color:var(--w);background:rgba(255,255,255,.08);border:1px solid var(--l);border-radius:8px;padding:7px 10px;cursor:pointer}
+button:hover{border-color:var(--c)}
+#tabs button.aan{background:var(--c);border-color:var(--c);color:var(--d);font-weight:700}
+#inhoud p{margin:0 0 10px}
+#inhoud b{color:var(--g);font-size:17px}
+.noot{color:var(--t);font-size:13px}
+.hint{color:var(--c)}
+.legenda{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13px;color:var(--t)}
+.legenda i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+label{display:block;margin:0 0 10px;font-size:14px;color:var(--t)}
+label b{color:var(--w)!important;font-size:14px!important}
+input[type=range]{width:100%;accent-color:var(--c);display:block;margin-top:5px}
+select,textarea{width:100%;font:inherit;color:var(--w);background:#16242f;border:1px solid var(--l);border-radius:7px;padding:6px 8px;margin-top:5px}
+.schaal{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t);margin-bottom:10px}
+.schaal i{flex:1;height:9px;border-radius:5px;background:linear-gradient(90deg,#f7a624,#ede6d4,#00bcd4)}
+.knoppen{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.knoppen button{flex:1;white-space:nowrap}
+button.stil{background:none;color:var(--t);font-size:13px;border-color:transparent;padding:3px 0}
+.rij{position:relative;display:flex;justify-content:space-between;font-size:13px;padding:2px 6px;margin-bottom:3px;overflow:hidden;border-radius:4px}
+.rij span,.rij b{position:relative;z-index:1}.rij b{font-size:13px!important}
+.rij i{position:absolute;left:0;top:0;bottom:0;background:rgba(245,166,35,.28)}
+#waterTop h3,#kaartje h3,#vraag h3{font-size:14px;margin:0 0 6px}
+#voet{margin-top:10px;padding-top:9px;border-top:1px solid var(--l);font-size:12px;color:var(--t)}
+#disc{color:var(--g);margin:0 0 5px}
+#bron{margin:0}
+#terug{color:var(--c);text-decoration:none}
+#boven{position:fixed;right:16px;top:16px;display:flex;gap:8px;align-items:center}
+#boven a,#boven button{background:var(--p);border:1px solid var(--l);border-radius:8px;padding:7px 11px;backdrop-filter:blur(14px)}
+#tijdlijn{left:372px;right:16px;bottom:16px;display:flex;align-items:center;gap:12px;padding:9px 15px}
+#tijdlijn input{margin:0;flex:1}
+#tijdlijn button{width:38px;padding:6px 0;flex:none}
+#jaarBlok{min-width:78px;line-height:1}
+#jaarLabel{display:block;font-size:11px;color:var(--t)}
+#jaarGetal{font:700 25px 'Trebuchet MS',sans-serif;color:var(--g)}
+#tip{left:372px;bottom:84px;display:flex;align-items:center;gap:9px;padding:9px 13px;flex-wrap:wrap;max-width:calc(100vw - 388px);border-color:var(--g)}
+#tip button[data-m]{background:var(--g);border-color:var(--g);color:var(--d);font-weight:700}
+#tipDicht{font-size:18px;padding:0 4px}
+#bed{margin:9px 0 0}
+#kaartje{right:16px;top:64px;width:280px;padding:13px 15px}
+#kaartje dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 11px;font-size:13px}
+#kaartje dt{color:var(--t)}#kaartje dd{margin:0;text-align:right}
+#dicht{position:absolute;right:7px;top:5px;background:none;border:0;font-size:19px;padding:0 6px;color:var(--t)}
+#vraag{left:50%;top:50%;transform:translate(-50%,-50%);width:min(340px,calc(100vw - 32px));padding:15px 17px;z-index:5}
+.keuzes label{margin:0 0 5px;color:var(--w)}
+.keuzes input{margin-right:7px;accent-color:var(--c)}
+#labels,#pins{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.lab,.pin{position:absolute;left:0;top:0;will-change:transform;white-space:nowrap}
+.lab{font:600 12.5px 'Trebuchet MS',sans-serif;color:#fff;text-shadow:0 1px 5px #000,0 0 2px #000;padding-bottom:6px}
+.lab:after{content:'';position:absolute;left:50%;bottom:0;width:1px;height:6px;background:#fff}
+.pin{background:var(--g);color:var(--d);font-size:12.5px;padding:3px 8px;border-radius:7px 7px 7px 0;max-width:210px;white-space:normal;box-shadow:0 2px 9px rgba(0,0,0,.45)}
+.pin span{display:block;font-size:12px}
+#laad{position:fixed;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:var(--d);z-index:9;transition:opacity 1s}
+#laad.weg{opacity:0;pointer-events:none}
+#laadT{font:600 17px 'Trebuchet MS',sans-serif}
+#spoor{width:220px;height:4px;background:var(--l);border-radius:3px;overflow:hidden}
+#balk{height:100%;width:0;background:var(--c);transition:width .25s}
+[hidden]{display:none!important}
+@media (max-width:760px){
+  #links{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-height:46vh;padding:11px 13px}
+  #links h1{font-size:18px}#sub{display:none}
+  #tabs{grid-template-columns:repeat(4,1fr);gap:4px;margin:7px 0}#tabs button{padding:5px 2px;font-size:12px}
+  #tijdlijn{left:8px;right:8px;bottom:auto;top:52px}
+  #kaartje{left:8px;right:8px;width:auto;top:104px}
+  #boven{right:8px;top:8px}
+  #tip{left:8px;right:8px;bottom:auto;top:104px;max-width:none}
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<div id="pins"></div>
+<section id="links" class="paneel">
+  <h1 id="titel"></h1>
+  <div id="sub"></div>
+  <div id="tabs">
+    <button data-m="groei"></button><button data-m="buurt"></button>
+    <button data-m="water"></button><button data-m="plan"></button>
+  </div>
+  <div id="inhoud"></div>
+  <p id="bed" class="noot"></p>
+  <div id="voet"><p id="disc"></p><p id="bron"></p></div>
+</section>
+<div id="boven"><button id="draaiL">⟲</button><button id="draaiR">⟳</button><a id="terug" href="../index.html"></a><button id="taal">EN</button></div>
+<section id="tijdlijn" class="paneel">
+  <button id="speel" aria-label="Afspelen">▶</button>
+  <button id="opnieuw" aria-label="Opnieuw">↺</button>
+  <div id="jaarBlok"><span id="jaarLabel"></span><span id="jaarGetal">1200</span></div>
+  <input id="jaar" type="range" min="0" max="1" step="0.001" value="0" aria-label="Jaar">
+</section>
+<section id="tip" class="paneel" hidden></section>
+<section id="kaartje" class="paneel" hidden></section>
+<section id="vraag" class="paneel" hidden></section>
+<div id="laad"><div id="laadT"></div><div id="spoor"><div id="balk"></div></div></div>
+<script type="module" src="stad.js"></script>
+</body>
+</html>
