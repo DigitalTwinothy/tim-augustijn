@@ -1,20 +1,20 @@
 {
- "opgehaald": "2026-11-12T20:53+00:00",
+ "opgehaald": "2026-11-13T01:53+00:00",
  "water": {
   "plek": "Maas bij Lith",
-  "nap_m": 4.9,
-  "tijd": "2026-11-12T21:40:00+01:00"
+  "nap_m": 4.89,
+  "tijd": "2026-11-13T02:40:00+01:00"
  },
  "weer": {
   "plek": "Volkel",
-  "temp": 3.5,
+  "temp": 1.5,
   "tekst": "Vrijwel onbewolkt (zonnig/helder)",
-  "tijd": "2026-11-12T21:40:00"
+  "tijd": "2026-11-13T02:40:00"
  },
  "lucht": {
   "plek": "Nistelrode-Gagelstraat",
   "km": 16,
-  "no2": 20.22,
-  "tijd": "2026-11-12T20:00:00+00:00"
+  "no2": 9.79,
+  "tijd": "2026-11-13T01:00:00+00:00"
  }
 }
